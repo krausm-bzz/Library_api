@@ -1,0 +1,291 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "books",
+      "description": "Bücher in der Bibliothek"
+    },
+    {
+      "name": "lends",
+      "description": "Ausleihe von Büchern"
+    }
+  ],
+  "paths": {
+    "/books": {
+      "get": {
+        "tags": ["books"],
+        "description": "Liste alle Bücher auf.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": ["books"],
+        "description": "Füge neue Bücher hinzu.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ISBN": {
+                  "type": "string",
+                  "example": "9780743273565",
+                  "required": true
+                },
+                "title": {
+                  "type": "string",
+                  "example": "The Great Gatsby",
+                  "required": true
+                },
+                "year": {
+                  "type": "integer",
+                  "example": 1925,
+                  "required": true
+                },
+                "author": {
+                  "type": "string",
+                  "example": "F. Scott Fitzgerald",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/books/{isbn}": {
+      "get": {
+        "tags": ["books"],
+        "description": "Liste einzelne Bücher mit der ISBN auf.",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": ["books"],
+        "description": "Ersetze einzelne Bücher",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ISBN": {
+                  "type": "string",
+                  "example": "9780743273565",
+                  "required": true
+                },
+                "title": {
+                  "type": "string",
+                  "example": "The Great Gatsby",
+                  "required": true
+                },
+                "year": {
+                  "type": "integer",
+                  "example": 1925,
+                  "required": true
+                },
+                "author": {
+                  "type": "string",
+                  "example": "F. Scott Fitzgerald",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["books"],
+        "description": "Lösche einzelne Bücher",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "tags": ["books"],
+        "description": "Bearbeite einzelne Bücher",
+        "parameters": [
+          {
+            "name": "isbn",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ISBN": {
+                  "type": "string",
+                  "example": "9780743273565",
+                  "required": true
+                },
+                "title": {
+                  "type": "string",
+                  "example": "The Great Gatsby",
+                  "required": true
+                },
+                "year": {
+                  "type": "integer",
+                  "example": 1925,
+                  "required": true
+                },
+                "author": {
+                  "type": "string",
+                  "example": "F. Scott Fitzgerald",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/lends": {
+      "get": {
+        "tags": ["lends"],
+        "description": "Liste alle Leihgaben auf",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": ["lends"],
+        "description": "Leihe ein Buch aus mit der Kunden-ID und ISBN",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "customer_id": {
+                  "type": "string",
+                  "example": "123",
+                  "required": true
+                },
+                "isbn": {
+                  "type": "string",
+                  "example": "9780743273565",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/lends/{id}": {
+      "get": {
+        "tags": ["lends"],
+        "description": "Liste einzelne Leihgaben auf",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["lends"],
+        "description": "Gib Bücher wieder ab",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
