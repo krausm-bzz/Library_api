@@ -3,7 +3,7 @@ const app = express()
 const port = 3001
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
-const session = require('express-session') // Pfade entsprechend anpassen
+const session = require('express-session')
 app.use('/swagger-ui/', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.use(express.json())
@@ -15,8 +15,8 @@ app.use(session({
   cookie: {}
 }))
 
-function auhtentication (req, res, next) {
-  if (isAuthenticated) {
+function authentication(req, res, next) {
+  if (req.session.isAuthenticated) {
     next()
   } else {
     res.status(401).send('Unautorisiert')
@@ -88,7 +88,7 @@ app.patch('/books/:isbn', (req, res) => {
 // Lend
 // -----------------------------------------------------------
 
-app.use('/lends', auhtentication)
+app.use('/lends', authentication)
 
 const lends = [
   {
@@ -176,13 +176,14 @@ app.post('/login', (req, res) => {
   if (user) {
     req.session.user = user
     isAuthenticated = true
+    req.session.isAuthenticated = isAuthenticated
     res.status(201).json({ email: user.email })
   } else {
     res.status(401).send('Unautorisiert')
   }
 })
 
-app.get('/verify', (req, res) => {
+app.get('/verify', authentication, (req, res) => {
   if (isAuthenticated) {
     res.status(201).json({ email: req.session.user.email })
   } else {
@@ -190,7 +191,7 @@ app.get('/verify', (req, res) => {
   }
 })
 
-app.delete('/logout', (req, res) => {
+app.delete('/logout', authentication, (req, res) => {
   isAuthenticated = false
   res.status(204).send('Unautorisiert')
 })
